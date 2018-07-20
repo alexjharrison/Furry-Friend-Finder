@@ -20,5 +20,8 @@
   "bugs": {
     "url": "https://github.com/alexjharrison/Furry-Friend-Finder/issues"
   },
-  "homepage": "https://github.com/alexjharrison/Furry-Friend-Finder#readme"
+  "homepage": "https://github.com/alexjharrison/Furry-Friend-Finder#readme",
+  "dependencies": {
+    "express": "^4.16.3"
+  }
 }
