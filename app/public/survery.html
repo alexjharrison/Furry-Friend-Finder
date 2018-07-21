@@ -4,9 +4,274 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/css/materialize.min.css">
+    <script
+    src="https://code.jquery.com/jquery-3.3.1.min.js"
+    integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+    crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/js/materialize.min.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <title>Furry Friend Finder Survey</title>
+    
 </head>
 <body>
-    <h1>hello world survey</h1>
+    <ul id="json-dropdown" class="dropdown-content">
+        <li><a href="/api/doggos">All Dog Breeds</a></li>
+        <li><a href="/api/humanos">User Results</a></li>
+    </ul>     
+    <ul id="sidebar" class="sidenav">
+        <li class="active"><a href="/">Home</a></li>
+        <li><a href="survey">Survey</a></li>
+        <li><a href="/api/doggos">Dog Breeds JSON</a></li>
+        <li><a href="/api/humanos">User Results JSON</a></li>
+    </ul>
+    <nav>
+        <div class="nav-wrapper cyan darken-2">
+            <a href="/" class="brand-logo truncate">Furry Friend Finder</a>
+            <a href="#" data-target="sidebar" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+            <ul id="nav-mobile" class="right hide-on-med-and-down">
+                <li><a href="/">Home</a></li>
+                <li class="active"><a href="survey">Survey</a></li>
+                <li><a class="dropdown-trigger" href="#!" data-target="json-dropdown">JSON API Calls<i class="material-icons right">arrow_drop_down</i></a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="row">
+            <div class="col s12 center-align">
+                <h4 class="">Take the Doggo Personality Test</h4>
+                <h6>Find the friendo you were meant to be with</h6>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col s12 center-align">
+                <div class="parallax-container">
+                    <div class="parallax"><img src="images/tongue.jpg"></div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col s12 center-align">
+                <h3>How important to you are following traits?</h3>
+            </div>
+        </div>
+        <div class="section">
+            <div class="row">
+                <div class="input-field col s12">
+                    <h5>What's Your Name?</h5>
+                    <div class="input-field">
+                        <input type="text" id="fullName" class="validate" placeholder="Enter Here">
+                        <label for="name"></label>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12">
+                    <h5>How bigga doggo you lookin for?</h5>
+                    <select>
+                        <option value="" disabled selected>Choose your option</option>
+                        <option value="1">1 - I want my cat to feel even more superior than he already does</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5 - We're gonna do some sumo wrestling</option>
+                        <option value="NA">Not Important</option>
+                    </select>
+                    <label>Question #1</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12">
+                    <h5>Does the doggo need to be good around kids?</h5>
+                    <select>
+                        <option value="" disabled selected>Choose your option</option>
+                        <option value="1">1 - I actively avoid children at all costs</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5 - Can't have my baby eating my other babies</option>
+                        <option value="NA">Not Important</option>
+                    </select>
+                    <label>Question #2</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12">
+                    <h5>Does the doggo need to be good around other doggos?</h5>
+                    <select>
+                        <option value="" disabled selected>Choose your option</option>
+                        <option value="1">1 - No other dogs live in this state so I'm good</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5 - I require all the puppy playtime and dog dates</option>
+                        <option value="NA">Not Important</option>
+                    </select>
+                    <label>Question #3</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12">
+                    <h5>Do you care about shedding?</h5>
+                    <select>
+                        <option value="" disabled selected>Choose your option</option>
+                        <option value="1">1 - I can use their fluff to carpet my apartment</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5 - I prefer my doggos on the balder side</option>
+                        <option value="NA">Not Important</option>
+                    </select>
+                    <label>Question #4</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12">
+                    <h5>Does the doggo need to be easy to groom?</h5>
+                    <select>
+                        <option value="" disabled selected>Choose your option</option>
+                        <option value="1">1 - I'll be spray painting designs on my dog so might as well give him a brush while I'm at it </option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5 - I don't even brush my own hair</option>
+                        <option value="NA">Not Important</option>
+                    </select>
+                    <label>Question #5</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12">
+                    <h5>Do you want a high energy dog?</h5>
+                    <select>
+                        <option value="" disabled selected>Choose your option</option>
+                        <option value="1">1 - I want a dog as lazy as me</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5 - I'll be running the Iditarod next season</option>
+                        <option value="NA">Not Important</option>
+                    </select>
+                    <label>Question #6</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12">
+                    <h5>Do you require a healthy lineage?</h5>
+                    <select>
+                        <option value="" disabled selected>Choose your option</option>
+                        <option value="1">1 - Don't care if it snorts and farts as long as it's cute</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5 - Vet bills are damn expensive</option>
+                        <option value="NA">Not Important</option>
+                    </select>
+                    <label>Question #7</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12">
+                    <h5>What are your feelings toward barking?</h5>
+                    <select>
+                        <option value="" disabled selected>Choose your option</option>
+                        <option value="1">1 - I hate my neighbor in the next apartment over</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5 - Barking triggers a weird rash on my back</option>
+                        <option value="NA">Not Important</option>
+                    </select>
+                    <label>Question #8</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12">
+                    <h5>Does this doggo need to be a smart cookie?</h5>
+                    <select>
+                        <option value="" disabled selected>Choose your option</option>
+                        <option value="1">1 - I feel emasculated when a dog is cleverer than me</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5 - I'm gonna teach this guy Esperanto</option>
+                        <option value="NA">Not Important</option>
+                    </select>
+                    <label>Question #9</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12">
+                    <h5>How trainable should this dude be?</h5>
+                    <select>
+                        <option value="" disabled selected>Choose your option</option>
+                        <option value="1">1 - It's laissez faire anarchy in my house</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5 - We're hitting up the agility and sniffing competitions</option>
+                        <option value="NA">Not Important</option>
+                    </select>
+                    <label>Question #10</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12">
+                    <h5>How hot do your summers get?</h5>
+                    <select>
+                        <option value="" disabled selected>Choose your option</option>
+                        <option value="1">1 - Antarctica is nice this time of year</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5 - Like the swollen mouth of Hell is open</option>
+                        <option value="NA">Not Important</option>
+                    </select>
+                    <label>Question #11</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12">
+                    <h5>How cold do your winters get?</h5>
+                    <select>
+                        <option value="" disabled selected>Choose your option</option>
+                        <option value="1">1 - What's a cold?</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5 - I can feel my blood freezing</option>
+                        <option value="NA">Not Important</option>
+                    </select>
+                    <label>Question #12</label>
+                </div>
+            </div>
+            <div class="section">
+                    <a class="waves-effect waves-light btn modal-trigger" href="#info-modal"><i class="material-icons left">check_circle</i>Submit</a>
+            </div>
+            <br><br>
+        </div>
+    </div>
+
+    <div id="info-modal" class="modal">
+        <div class="modal-content">
+            <h4>Modal Header</h4>
+            <p>A bunch of text</p>
+        </div>
+        <div class="modal-footer">
+            <a href="#!" class="modal-close waves-effect waves-teal btn-flat ">Awesome</a>
+        </div>
+    </div>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $(".dropdown-trigger").dropdown({
+                hover:false
+            });
+            $('.sidenav').sidenav();
+            $('.modal').modal();
+            $('select').formSelect();
+            $('.parallax').parallax();
+        })
+    </script>
 </body>
 </html>
