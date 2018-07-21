@@ -4,9 +4,76 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/css/materialize.min.css">
+    <script
+    src="https://code.jquery.com/jquery-3.3.1.min.js"
+    integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+    crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/js/materialize.min.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <title>Furry Friend Finder</title>
+    
 </head>
 <body>
-    <h1>hello world home</h1>
+    <ul id="json-dropdown" class="dropdown-content">
+        <li><a href="/api/doggos">All Dog Breeds</a></li>
+        <li><a href="/api/humanos">User Results</a></li>
+    </ul>     
+    <nav>
+        <div class="nav-wrapper cyan darken-2">
+            <a href="/" class="brand-logo">Furry Friend Finder</a>
+            <ul id="nav-mobile" class="right hide-on-med-and-down">
+                <li class="active"><a href="/">Home</a></li>
+                <li><a href="survey">Survey</a></li>
+                <li><a class="dropdown-trigger" href="#!" data-target="json-dropdown">JSON API Calls<i class="material-icons right">arrow_drop_down</i></a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="row">
+            <div class="col s12 center-align">
+                <h4 class="">Welcome to the Furry Friend Finder Website</h4>
+            </div>
+            
+        </div>
+        <div class="row">
+            <div class="col s12 center-align">
+                <h6>A site designed specifically to find a dog breed perfectly suited to your lifestyle and needs.</h6>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col s2 offset s4"></div>
+                <a class="waves-effect waves-light btn-large cyan darken-2" href="/survey"><i class="material-icons right">check</i>Take the Survey!</a>
+        </div>
+        <div class="divider"></div>
+        <div class="section">
+            <div class="row valign-wrapper">     
+                <div class="col s12 m4 center-align">
+                    <img class="z-depth-4 responsive-img" src="images/mabel.jpg" alt="mabel pic">
+                </div>      
+                <div class="col s12 m8">
+                    <ul class="collection with-header">
+                        <li class="collection-header"><h5>Lucky Matches</h5></li>
+                        <li class="collection-item"><div>Alex - Golden Retriever<a href="#!" class="secondary-content"><i class="material-icons">send</i></a></div></li>
+                        <li class="collection-item"><div>Alvin<a href="#!" class="secondary-content"><i class="material-icons">send</i></a></div></li>
+                        <li class="collection-item"><div>Alvin<a href="#!" class="secondary-content"><i class="material-icons">send</i></a></div></li>
+                        <li class="collection-item"><div>Alvin<a href="#!" class="secondary-content"><i class="material-icons">send</i></a></div></li>
+                    </ul>
+                </div>
+        </div>
+        </div>
+    </div>
+
+      <script type="text/javascript">
+          $(document).ready(function(){
+            $(".dropdown-trigger").dropdown({
+                hover:false
+            });
+
+
+
+          })
+      </script>
 </body>
 </html>

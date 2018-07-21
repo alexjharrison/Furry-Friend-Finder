@@ -10,6 +10,7 @@ module.exports = (app) => {
     });
 
     app.get("*",(req,res)=>{
+        res.status(404);
         res.sendFile(path.join(__dirname,"../public/404.html"));
     });
 };
