@@ -9,10 +9,16 @@ module.exports = (app) => {
         res.sendFile(path.join(__dirname,"../public/survery.html"));
     });
 
-    app.get("/images/:imageName",(req,res)=>{
-        var name = req.params.imageName;
-        res.sendFile(path.join(__dirname,"../public/images/"+name));
-    })
+    app.get("/:folderName/:fileName",(req,res)=>{
+        var folder = req.params.folderName;
+        var file = req.params.fileName;
+        res.sendFile(path.join(__dirname,"../public/"+folder+"/"+file));
+    });
+
+    app.get("/:fileName",(req,res)=>{
+        var file = req.params.fileName;
+        res.sendFile(path.join(__dirname,"../public/"+file));
+    });
 
     app.get("*",(req,res)=>{
         res.status(404);
