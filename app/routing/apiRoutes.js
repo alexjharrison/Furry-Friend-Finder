@@ -95,14 +95,16 @@ module.exports = (app) => {
             return Object.values(doggos[index]).splice(2);
         }
         wtf.fetch(doggos[topIndices[0]].name).then(doc=>{
-            console.log(doc.images(0).thumb(),doc.sections("").plaintext());
+            // console.log(doc.images(0).thumb(),doc.sections("").plaintext());
+            var imageUrl = doc.images(0).thumb().replace("/thumb","");
+            imageUrl = imageUrl.substring(0,imageUrl.lastIndexOf("/"));
             
             humanos.push({
                 humanName: humanName,
                 humanTraits: humanTraits,
                 bestDogName: doggos[topIndices[0]].name,
                 bestDogPercent: topPercents[0],
-                bestDogPic: doc.images(0).thumb(),
+                bestDogPic: imageUrl,
                 bestDogTraits: getTraits(topIndices[0]),
                 bestDogWiki: doc.sections("").plaintext(),
                 secondDogName: doggos[topIndices[1]].name,
