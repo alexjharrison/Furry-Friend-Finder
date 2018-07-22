@@ -5,7 +5,7 @@ module.exports = (app) => {
     var doggos = require("../data/doggos");
     var humanos = require("../data/humanos");
     var bodyParser = require("body-parser");
-    var path = require("path");
+    var wtf = require("wtf_wikipedia");
 
     app.use(bodyParser.urlencoded({ extended: false }));
     app.use(bodyParser.json());
@@ -18,19 +18,15 @@ module.exports = (app) => {
     });
 
     app.post("/api/humanos",(req,res)=>{
-        humanos.push(comparison(req.body));
-        res.json(humanos[humanos.length-1]);
+        comparison(req.body,res);
     })
 
-    var comparison = (humano)=>{
+    var comparison = (humano,res)=>{
         var humanTraits = Object.values(humano)[1];
         var humanName = Object.values(humano)[0];
         //returns array of % matches in order of breed
         
-
-
-
-        //  SUPER BROKEN NEEDS REDONE
+        
         var dogComparison = doggos.map(breed=>{
             var possibleDiff = 0;
             var realDiff = 0;
@@ -38,8 +34,8 @@ module.exports = (app) => {
             traits = Object.values(breed);
             for(var i=2;i<traits.length;i++){
                 if(!isNaN(humanTraits[i-2])){
-                    possibleDiff += 5;
-                    realDiff += 5 - Math.abs(traits[i] - humanTraits[i-2]);
+                    possibleDiff += 4;
+                    realDiff += 4 - Math.abs(traits[i] - humanTraits[i-2]);
                 }
             }
             percentMatch = (realDiff / possibleDiff * 100).toFixed(2);
@@ -91,32 +87,38 @@ module.exports = (app) => {
                 lowestIndex = i;
                 lowestPercent = dogComparison[i];
             }
-            console.log(topPercents,topIndices,i,dogComparison[i],lowestIndex,lowestPercent);
+            // console.log(topPercents,topIndices,i,dogComparison[i],lowestIndex,lowestPercent);
         }
 
+        //wikipedia api call
         var getTraits = (index)=>{
             return Object.values(doggos[index]).splice(2);
         }
-
-        return {
-            humanName: humanName,
-            humanTraits: humanTraits,
-            bestDogName: doggos[topIndices[0]].name,
-            bestDogPercent: topPercents[0],
-            bestDogPic: "http://www.dogbreedchart.com/img/" + doggos[topIndices[0]].id+".jpg",
-            bestDogTraits: getTraits(topIndices[0]),
-            secondDogName: doggos[topIndices[1]].name,
-            secondDogPercent: topPercents[1],
-            secondDogPic: "http://www.dogbreedchart.com/img/" + doggos[topIndices[1]].id+".jpg",
-            secondDogTraits: getTraits(topIndices[1]),
-            thirdDogName: doggos[topIndices[2]].name,
-            thirdDogPercent: topPercents[2],
-            thirdDogPic: "http://www.dogbreedchart.com/img/" + doggos[topIndices[2]].id+".jpg",
-            thirdDogTraits: getTraits(topIndices[2]),
-            worstDogName: doggos[lowestIndex].name,
-            worstDogPercent: lowestPercent,
-            worstDogPic: "http://www.dogbreedchart.com/img/" + doggos[lowestIndex].id+".jpg",
-            worstDogTraits: getTraits(lowestIndex),
-        }
+        wtf.fetch(doggos[topIndices[0]].name).then(doc=>{
+            console.log(doc.images(0).thumb(),doc.sections("").plaintext());
+            
+            humanos.push({
+                humanName: humanName,
+                humanTraits: humanTraits,
+                bestDogName: doggos[topIndices[0]].name,
+                bestDogPercent: topPercents[0],
+                bestDogPic: doc.images(0).thumb(),
+                bestDogTraits: getTraits(topIndices[0]),
+                bestDogWiki: doc.sections("").plaintext(),
+                secondDogName: doggos[topIndices[1]].name,
+                secondDogPercent: topPercents[1],
+                secondDogPic: "http://www.dogbreedchart.com/img/" + doggos[topIndices[1]].id+".jpg",
+                secondDogTraits: getTraits(topIndices[1]),
+                thirdDogName: doggos[topIndices[2]].name,
+                thirdDogPercent: topPercents[2],
+                thirdDogPic: "http://www.dogbreedchart.com/img/" + doggos[topIndices[2]].id+".jpg",
+                thirdDogTraits: getTraits(topIndices[2]),
+                worstDogName: doggos[lowestIndex].name,
+                worstDogPercent: lowestPercent,
+                worstDogPic: "http://www.dogbreedchart.com/img/" + doggos[lowestIndex].id+".jpg",
+                worstDogTraits: getTraits(lowestIndex),
+            });
+            res.json(humanos[humanos.length-1]);
+        });
     }
 }

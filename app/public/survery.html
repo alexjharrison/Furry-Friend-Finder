@@ -254,7 +254,7 @@
         </div>
     </div>
 
-    <div id="info-modal" class="modal">
+    <!-- <div id="info-modal" class="modal">
         <div class="modal-content">
             <div class="row center-align">
                 <h4>Calculating Match</h4><br>
@@ -301,10 +301,23 @@
                 </div>
             </div>
         </div>  
-        <!-- <div class="modal-footer">
+        <div class="modal-footer">
             <a href="/" class="modal-close waves-effect waves-teal btn-flat " id="modal-ok">Awesome</a>
-        </div> -->
+        </div>
+    </div> -->
+    <div id="info-modal" class="modal">
+        <div class="modal-content">
+            <div class="row center-align section">
+                <h5>#Name has been matched with a</h5>
+                <h4>#Yorkshire Terrier</h4>
+                </div>
+            </div>
+        </div>  
+        <div class="modal-footer">
+            <a href="/" class="modal-close waves-effect waves-teal btn-flat " id="modal-ok">Awesome</a>
+        </div>
     </div>
+
     <div id="fill-fields" class="modal">
         <div class="row center-align section">
             <h4>Please Fill All Fields To Continue</h4>
@@ -325,10 +338,10 @@
             
             $("#submit-button").on("click",()=>{
                 var values = [...$("select")].map(ques=>ques.value);
-                if(values.includes("")||!$("#fullName").val()){
-                    $("#fill-fields").modal("open");
-                    return;
-                }
+                // if(values.includes("")||!$("#fullName").val()){
+                //     $("#fill-fields").modal("open");
+                //     return;
+                // }
                 $('#info-modal').modal('open');
                 var message = {
                     name: $("#fullName").val(),
@@ -336,6 +349,8 @@
                 }
                 $.post("/api/humanos",message,(data,status)=>{
                     console.log(data,status);
+                    
+                    
                 })
                 
             })
