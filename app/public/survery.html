@@ -51,11 +51,6 @@
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col s12 center-align">
-                <h3>How important to you are following traits?</h3>
-            </div>
-        </div>
         <div class="section">
             <div class="row">
                 <div class="input-field col s12">
@@ -66,6 +61,12 @@
                     </div>
                 </div>
             </div>
+            <div class="row">
+                <div class="col s12 center-align">
+                    <h3>How important to you are following traits?</h3>
+                </div>
+            </div>
+            <br>
             <div class="row">
                 <div class="input-field col s12">
                     <h5>How bigga doggo you lookin for?</h5>
@@ -234,7 +235,7 @@
             <div class="row">
                 <div class="input-field col s12">
                     <h5>How cold do your winters get?</h5>
-                    <select>
+                    <select> 
                         <option value="" disabled selected>Choose your option</option>
                         <option value="1">1 - What's a cold?</option>
                         <option value="2">2</option>
@@ -247,7 +248,7 @@
                 </div>
             </div>
             <div class="section">
-                    <a class="waves-effect waves-light btn modal-trigger" href="#info-modal"><i class="material-icons left">check_circle</i>Submit</a>
+                    <a class="waves-effect waves-light btn" href="#" id="submit-button"><i class="material-icons left">check_circle</i>Submit</a>
             </div>
             <br><br>
         </div>
@@ -255,11 +256,61 @@
 
     <div id="info-modal" class="modal">
         <div class="modal-content">
-            <h4>Modal Header</h4>
-            <p>A bunch of text</p>
+            <div class="row center-align">
+                <h4>Calculating Match</h4><br>
+                <div class="preloader-wrapper big active">
+                    <div class="spinner-layer spinner-blue">
+                        <div class="circle-clipper left">
+                        <div class="circle"></div>
+                        </div><div class="gap-patch">
+                        <div class="circle"></div>
+                        </div><div class="circle-clipper right">
+                        <div class="circle"></div>
+                        </div>
+                    </div>
+                
+                    <div class="spinner-layer spinner-red">
+                        <div class="circle-clipper left">
+                        <div class="circle"></div>
+                        </div><div class="gap-patch">
+                        <div class="circle"></div>
+                        </div><div class="circle-clipper right">
+                        <div class="circle"></div>
+                        </div>
+                    </div>
+                
+                    <div class="spinner-layer spinner-yellow">
+                        <div class="circle-clipper left">
+                        <div class="circle"></div>
+                        </div><div class="gap-patch">
+                        <div class="circle"></div>
+                        </div><div class="circle-clipper right">
+                        <div class="circle"></div>
+                        </div>
+                    </div>
+                
+                    <div class="spinner-layer spinner-green">
+                        <div class="circle-clipper left">
+                        <div class="circle"></div>
+                        </div><div class="gap-patch">
+                        <div class="circle"></div>
+                        </div><div class="circle-clipper right">
+                        <div class="circle"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>  
+        <!-- <div class="modal-footer">
+            <a href="/" class="modal-close waves-effect waves-teal btn-flat " id="modal-ok">Awesome</a>
+        </div> -->
+    </div>
+    <div id="fill-fields" class="modal">
+        <div class="row center-align section">
+            <h4>Please Fill All Fields To Continue</h4>
         </div>
         <div class="modal-footer">
-            <a href="#!" class="modal-close waves-effect waves-teal btn-flat ">Awesome</a>
+            <a href="#" class="modal-close waves-effect waves-teal btn cyan darken-2" id="modal-ok">I'm on it</a>
         </div>
     </div>
     <script type="text/javascript">
@@ -271,6 +322,30 @@
             $('.modal').modal();
             $('select').formSelect();
             $('.parallax').parallax();
+            
+            $("#submit-button").on("click",()=>{
+                var values = [...$("select")].map(ques=>ques.value);
+                if(values.includes("")||!$("#fullName").val()){
+                    $("#fill-fields").modal("open");
+                    return;
+                }
+                $('#info-modal').modal('open');
+                var message = {
+                    name: $("#fullName").val(),
+                    answers: values
+                }
+                $.post("/api/humanos",message,(data,status)=>{
+                    console.log(data,status);
+                })
+                
+            })
+            
+            
+
+
+
+
+
         })
     </script>
 </body>
