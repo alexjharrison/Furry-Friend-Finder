@@ -94,21 +94,29 @@ module.exports = (app) => {
             console.log(topPercents,topIndices,i,dogComparison[i],lowestIndex,lowestPercent);
         }
 
+        var getTraits = (index)=>{
+            return Object.values(doggos[index]).splice(2);
+        }
+
         return {
             humanName: humanName,
             humanTraits: humanTraits,
-            bestDog: doggos[topIndices[0]],
+            bestDogName: doggos[topIndices[0]].name,
             bestDogPercent: topPercents[0],
             bestDogPic: "http://www.dogbreedchart.com/img/" + doggos[topIndices[0]].id+".jpg",
-            secondDog: doggos[topIndices[1]],
+            bestDogTraits: getTraits(topIndices[0]),
+            secondDogName: doggos[topIndices[1]].name,
             secondDogPercent: topPercents[1],
             secondDogPic: "http://www.dogbreedchart.com/img/" + doggos[topIndices[1]].id+".jpg",
-            thirdDog: doggos[topIndices[2]],
+            secondDogTraits: getTraits(topIndices[1]),
+            thirdDogName: doggos[topIndices[2]].name,
             thirdDogPercent: topPercents[2],
             thirdDogPic: "http://www.dogbreedchart.com/img/" + doggos[topIndices[2]].id+".jpg",
-            worstDog: doggos[lowestIndex],
+            thirdDogTraits: getTraits(topIndices[2]),
+            worstDogName: doggos[lowestIndex].name,
             worstDogPercent: lowestPercent,
             worstDogPic: "http://www.dogbreedchart.com/img/" + doggos[lowestIndex].id+".jpg",
+            worstDogTraits: getTraits(lowestIndex),
         }
     }
 }
