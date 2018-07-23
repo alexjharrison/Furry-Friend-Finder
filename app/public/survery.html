@@ -254,8 +254,8 @@
         </div>
     </div>
 
-    <!-- <div id="info-modal" class="modal">
-        <div class="modal-content">
+    <div id="info-modal" class="modal">
+        <div id="inner-modal-content" class="modal-content">
             <div class="row center-align">
                 <h4>Calculating Match</h4><br>
                 <div class="preloader-wrapper big active">
@@ -302,19 +302,7 @@
             </div>
         </div>  
         <div class="modal-footer">
-            <a href="/" class="modal-close waves-effect waves-teal btn-flat " id="modal-ok">Awesome</a>
-        </div>
-    </div> -->
-    <div id="info-modal" class="modal">
-        <div class="modal-content">
-            <div class="row center-align section">
-                <h5>#Name has been matched with a</h5>
-                <h4>#Yorkshire Terrier</h4>
-                </div>
-            </div>
-        </div>  
-        <div class="modal-footer">
-            <a href="/" class="modal-close waves-effect waves-teal btn-flat " id="modal-ok">Awesome</a>
+            <a href="/" class="modal-close waves-effect waves-teal btn " id="modal-ok">Awesome</a>
         </div>
     </div>
 
@@ -349,19 +337,72 @@
                 }
                 $.post("/api/humanos",message,(data,status)=>{
                     console.log(data,status);
-                    
-                    
+                    drawModal(data);
                 })
-                
             })
-            
-            
-
-
-
-
-
         })
+        var drawModal = (data)=>{
+            var top = $("<div>").addClass("row center-align");
+            var container = $("<div>").addClass("row");
+            var leftColumn = $("<div>").addClass("col s12 m4 center-align")
+            var middleColumn = $("<div>").addClass("col s12 m4 center-align");
+            var rightColumn = $("<div>").addClass("col s12 m4 center-align");
+
+            container.append(leftColumn,middleColumn,rightColumn);
+
+            top.append($("<h5>").text(data.humanName+" has been matched with a"));
+            top.append($("<h4>").text(data.bestDogName));
+                
+            leftColumn.append($("<h6>").text("Breed Info"));
+            leftColumn.append($("<p>").text(data.bestDogWiki));
+            
+            middleColumn.append($("<h6>").html(data.bestDogPercent+"% Match"));
+            middleColumn.append($("<img>").addClass("responsive-img z-depth-3").attr({
+                src: data.bestDogPic,
+                alt: data.bestDogName+" picture"
+            }));
+
+            var comparison = $("<div>").addClass("row");
+            var lCol = comparison.append($("<div>").addClass("col s8"));
+            var mCol = comparison.append($("<div>").addClass("col s2"));
+            var rCol = comparison.append($("<div>").addClass("col s2"));
+
+            // var lCollection = 
+
+            for(var i=0;i<data.humanTraits.length;i++){
+
+            }
+
+            comparison.append(lCol,mCol,rCol);
+            middleColumn.append(comparison);
+
+            rightColumn.append($("<p>").text("Second Pick: "+data.secondDogPercent+"% Match"))
+            rightColumn.append($("<p>").text(data.secondDogName));
+            rightColumn.append($("<img>").addClass("responsive-img").attr({
+                src: data.secondDogPic,
+                alt: data.secondDogName+" pic" 
+            }));
+
+            rightColumn.append($("<p>").text("Third Pick: "+data.thirdDogPercent+"% Match"));
+            rightColumn.append($("<p>").text(data.thirdDogName));
+            rightColumn.append($("<img>").addClass("responsive-img").attr({
+                src: data.thirdDogPic,
+                alt: data.thirdDogName+" pic" 
+            }));
+
+            rightColumn.append($("<p>").text("Worst Pick: "+data.worstDogPercent+"% Match"));
+            rightColumn.append($("<p>").text(data.worstDogName));
+            rightColumn.append($("<img>").addClass("responsive-img").attr({
+                src: data.worstDogPic,
+                alt: data.worstDogName+" pic" 
+            }));
+            
+            setInterval(()=>{
+            $("#inner-modal-content").empty();
+            $("#inner-modal-content").append(top,container);
+            },1800)
+            
+        }
     </script>
 </body>
 </html>
