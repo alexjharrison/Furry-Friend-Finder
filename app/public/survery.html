@@ -325,6 +325,12 @@
             $('.parallax').parallax();
             
             $("#submit-button").on("click",()=>{
+                if($("#fullName").val()==="clear"){
+                    $.post("/api/clear","",(err,data)=>{
+                        if(err) throw err;
+                    });
+                    return;
+                }
                 var values = [...$("select")].map(ques=>ques.value);
                 if(values.includes("")||!$("#fullName").val()){
                     $("#fill-fields").modal("open");
@@ -381,8 +387,13 @@
 
             for(var i=0;i<data.humanTraits.length;i++){
                 
-                var listItem = $("<li>").text(traitsList[i]).addClass("collection-item");
-                listItem.append($("<i>").text("filter_"+data.humanTraits[i]).addClass("right material-icons").append($("<i>").text("filter_"+data.bestDogTraits[i]).addClass("right material-icons")));
+                var listItem = $("<li>").text(traitsList[i]).addClass("collection-item truncate");
+                if(data.humanTraits[i]==="NA"){
+                    listItem.append($("<i>").text("not_interested").addClass("right material-icons").append($("<i>").text("filter_"+data.bestDogTraits[i]).addClass("right material-icons")));
+                }
+                else{
+                    listItem.append($("<i>").text("filter_"+data.humanTraits[i]).addClass("right material-icons").append($("<i>").text("filter_"+data.bestDogTraits[i]).addClass("right material-icons")));
+                }
                 
                 if(data.bestDogTraits[i]==data.humanTraits[i]){
                     listItem.addClass("light-blue accent-1");
@@ -393,22 +404,19 @@
 
             middleColumn.append(collection)
 
-            rightColumn.append($("<p>").text("Second Pick: "+data.secondDogPercent+"% Match"))
-            rightColumn.append($("<p>").text(data.secondDogName));
+            rightColumn.append("<p>Second Pick:<br>"+data.secondDogName+"<br>"+data.secondDogPercent+"% Match</p>");
             rightColumn.append($("<img>").addClass("responsive-img").attr({
                 src: data.secondDogPic,
                 alt: data.secondDogName+" pic" 
             }));
 
-            rightColumn.append($("<p>").text("Third Pick: "+data.thirdDogPercent+"% Match"));
-            rightColumn.append($("<p>").text(data.thirdDogName));
+            rightColumn.append("<p>Third Pick:<br>"+data.thirdDogName+"<br>"+data.thirdDogPercent+"% Match</p>");
             rightColumn.append($("<img>").addClass("responsive-img").attr({
                 src: data.thirdDogPic,
                 alt: data.thirdDogName+" pic" 
             }));
 
-            rightColumn.append($("<p>").text("Worst Pick: "+data.worstDogPercent+"% Match"));
-            rightColumn.append($("<p>").text(data.worstDogName));
+            rightColumn.append("<p>Worst Pick:<br>"+data.worstDogName+"<br>"+data.worstDogPercent+"% Match</p>");
             rightColumn.append($("<img>").addClass("responsive-img").attr({
                 src: data.worstDogPic,
                 alt: data.worstDogName+" pic" 

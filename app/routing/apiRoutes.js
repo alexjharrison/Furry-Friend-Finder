@@ -19,7 +19,12 @@ module.exports = (app) => {
 
     app.post("/api/humanos",(req,res)=>{
         comparison(req.body,res);
-    })
+    });
+
+    app.post("/api/clear",(req,res)=>{
+        humanos = [];
+        res.json(humanos);
+    });
 
     var comparison = (humano,res)=>{
         var humanTraits = Object.values(humano)[1];

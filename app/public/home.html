@@ -54,48 +54,174 @@
         </div>
         <div class="divider"></div>
         <div class="section">
-            <div class="row">     
-                <div class="col s12 m4 center-align offset-m1">
-                    <img class="z-depth-4 responsive-img" src="images/mabel.jpg" alt="mabel pic">
-                </div>      
-                <div class="col s12 m6">
-                    <ul class="collection with-header">
-                        <li class="collection-header"><h5>Lucky Matches</h5></li>
-                        <li class="collection-item">
-                            <h6>Alex - Golden Retriever<a class="secondary-content btn-floating btn-small waves-effect waves-light orange darken-2 modal-trigger" href="#info-modal"><i class="material-icons">add</i></a></h6>
-                        </li>
-                        <li class="collection-item">
-                            <h6>Ally<a class=" secondary-content btn-floating btn-small waves-effect waves-light orange darken-2 modal-trigger" href="#info-modal"><i class="material-icons">add</i></a></h6>
-                        </li>
-                        <li class="collection-item">
-                            <h6>Bill<a class=" secondary-content btn-floating btn-small waves-effect waves-light orange darken-2 modal-trigger" href="#info-modal"><i class="material-icons">add</i></a></h6>
-                        </li>
-                        <li class="collection-item">
-                            <h6>Hill<a class=" secondary-content btn-floating btn-small waves-effect waves-light orange darken-2 modal-trigger" href="#info-modal"><i class="material-icons">add</i></a></h6>
-                        </li>
+            <div class="row">    
+                <div class="col m12 l10 offset-l1">
+                    <ul id="collection" class="collection with-header z-depth-4">
                     </ul>
                 </div>
-        </div>
+            </div>
         </div>
     </div>
 
     <div id="info-modal" class="modal">
-        <div class="modal-content">
-            <h4>Modal Header</h4>
-            <p>A bunch of text</p>
+            <div id="inner-modal-content" class="modal-content">
+                <div class="row center-align">
+                    <h4>Calculating Match</h4><br>
+                    <div class="preloader-wrapper big active">
+                        <div class="spinner-layer spinner-blue">
+                            <div class="circle-clipper left">
+                            <div class="circle"></div>
+                            </div><div class="gap-patch">
+                            <div class="circle"></div>
+                            </div><div class="circle-clipper right">
+                            <div class="circle"></div>
+                            </div>
+                        </div>
+                    
+                        <div class="spinner-layer spinner-red">
+                            <div class="circle-clipper left">
+                            <div class="circle"></div>
+                            </div><div class="gap-patch">
+                            <div class="circle"></div>
+                            </div><div class="circle-clipper right">
+                            <div class="circle"></div>
+                            </div>
+                        </div>
+                    
+                        <div class="spinner-layer spinner-yellow">
+                            <div class="circle-clipper left">
+                            <div class="circle"></div>
+                            </div><div class="gap-patch">
+                            <div class="circle"></div>
+                            </div><div class="circle-clipper right">
+                            <div class="circle"></div>
+                            </div>
+                        </div>
+                    
+                        <div class="spinner-layer spinner-green">
+                            <div class="circle-clipper left">
+                            <div class="circle"></div>
+                            </div><div class="gap-patch">
+                            <div class="circle"></div>
+                            </div><div class="circle-clipper right">
+                            <div class="circle"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>  
+            <div class="modal-footer">
+                <a href="/" class="modal-close waves-effect waves-teal btn " id="modal-ok">Awesome</a>
+            </div>
         </div>
-        <div class="modal-footer">
-            <a href="#!" class="modal-close waves-effect waves-teal btn-flat ">Awesome</a>
-        </div>
-    </div>
     <script type="text/javascript">
+        var humanList;
         $(document).ready(function(){
             $(".dropdown-trigger").dropdown({
                 hover:false
             });
             $('.sidenav').sidenav();
             $('.modal').modal();
+            $.get("/api/humanos",(data,status)=>{
+                if(status!=="success") console.log("GET Failed");
+                else {
+                    humanList = data;
+                    drawTable(data);
+                }
+            })
+            $(document).on("click",".btn-floating",function(){
+                var clicked = $(this).attr("data-location");
+                drawModal(humanList[clicked]);
+            })
         })
+
+        var drawTable = (data) => {
+            var collection = $("#collection");
+            collection.append($("<li>").addClass("collection-header").append($("<h4>").text("Previous Results")));
+            
+            data.forEach((personData,index) => {
+                collection.append(`<li class="collection-item"><a class="secondary-content btn-floating btn-small waves-effect waves-light orange darken-2 modal-trigger" data-location="${index}" href="#info-modal"><i class="material-icons">add</i></a><h6>${personData.humanName} - ${personData.bestDogName} - ${personData.bestDogPercent}% Match</h6></li>`);
+            });
+        }
+
+        var drawModal = (data)=>{
+            var top = $("<div>").addClass("row center-align");
+            var container = $("<div>").addClass("row");
+            var leftColumn = $("<div>").addClass("col s12 m3 center-align")
+            var middleColumn = $("<div>").addClass("col s12 m5 center-align");
+            var rightColumn = $("<div>").addClass("col s12 m3 center-align");
+
+            container.append(leftColumn,middleColumn,rightColumn);
+
+            top.append($("<h5>").text(data.humanName+" has been matched with a"));
+            top.append($("<h4>").text(data.bestDogName));
+                
+            leftColumn.append($("<h6>").text("Breed Info"));
+            leftColumn.append($("<p>").text(data.bestDogWiki));
+            
+            middleColumn.append($("<h6>").html(data.bestDogPercent+"% Match"));
+            middleColumn.append($("<img>").addClass("responsive-img z-depth-3").attr({
+                src: data.bestDogPic,
+                alt: data.bestDogName+" picture"
+            }));
+
+            var traitsList = [
+                "Size",
+                "Kid Friendly",
+                "Dog Friendly",
+                "Low Shedding",
+                "Easy Grooming",
+                "High Energy",
+                "Good Health",
+                "Low Barking",
+                "Intelligence",
+                "Easy Training",
+                "Tolerates Hot",
+                "Tolerates Cold"
+            ]
+
+            var collection = $("<ul>").addClass("collection left-align");
+
+            for(var i=0;i<data.humanTraits.length;i++){
+                
+                var listItem = $("<li>").text(traitsList[i]).addClass("collection-item truncate");
+                if(data.humanTraits[i]==="NA"){
+                    listItem.append($("<i>").text("not_interested").addClass("right material-icons").append($("<i>").text("filter_"+data.bestDogTraits[i]).addClass("right material-icons")));
+                }
+                else{
+                    listItem.append($("<i>").text("filter_"+data.humanTraits[i]).addClass("right material-icons").append($("<i>").text("filter_"+data.bestDogTraits[i]).addClass("right material-icons")));
+                }
+                
+                if(data.bestDogTraits[i]==data.humanTraits[i]){
+                    listItem.addClass("light-blue accent-1");
+                }
+
+                collection.append(listItem);
+            }
+
+            middleColumn.append(collection)
+
+            rightColumn.append("<p>Second Pick:<br>"+data.secondDogName+"<br>"+data.secondDogPercent+"% Match</p>");
+            rightColumn.append($("<img>").addClass("responsive-img").attr({
+                src: data.secondDogPic,
+                alt: data.secondDogName+" pic" 
+            }));
+
+            rightColumn.append("<p>Third Pick:<br>"+data.thirdDogName+"<br>"+data.thirdDogPercent+"% Match</p>");
+            rightColumn.append($("<img>").addClass("responsive-img").attr({
+                src: data.thirdDogPic,
+                alt: data.thirdDogName+" pic" 
+            }));
+
+            rightColumn.append("<p>Worst Pick:<br>"+data.worstDogName+"<br>"+data.worstDogPercent+"% Match</p>");
+            rightColumn.append($("<img>").addClass("responsive-img").attr({
+                src: data.worstDogPic,
+                alt: data.worstDogName+" pic" 
+            }));
+
+            $("#inner-modal-content").empty();
+            $("#inner-modal-content").append(top,container);
+        }
     </script>
 </body>
 </html>
