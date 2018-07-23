@@ -326,10 +326,10 @@
             
             $("#submit-button").on("click",()=>{
                 var values = [...$("select")].map(ques=>ques.value);
-                // if(values.includes("")||!$("#fullName").val()){
-                //     $("#fill-fields").modal("open");
-                //     return;
-                // }
+                if(values.includes("")||!$("#fullName").val()){
+                    $("#fill-fields").modal("open");
+                    return;
+                }
                 $('#info-modal').modal('open');
                 var message = {
                     name: $("#fullName").val(),
@@ -344,9 +344,9 @@
         var drawModal = (data)=>{
             var top = $("<div>").addClass("row center-align");
             var container = $("<div>").addClass("row");
-            var leftColumn = $("<div>").addClass("col s12 m4 center-align")
-            var middleColumn = $("<div>").addClass("col s12 m4 center-align");
-            var rightColumn = $("<div>").addClass("col s12 m4 center-align");
+            var leftColumn = $("<div>").addClass("col s12 m3 center-align")
+            var middleColumn = $("<div>").addClass("col s12 m5 center-align");
+            var rightColumn = $("<div>").addClass("col s12 m3 center-align");
 
             container.append(leftColumn,middleColumn,rightColumn);
 
@@ -362,19 +362,36 @@
                 alt: data.bestDogName+" picture"
             }));
 
-            var comparison = $("<div>").addClass("row");
-            var lCol = comparison.append($("<div>").addClass("col s8"));
-            var mCol = comparison.append($("<div>").addClass("col s2"));
-            var rCol = comparison.append($("<div>").addClass("col s2"));
+            var traitsList = [
+                "Size",
+                "Kid Friendly",
+                "Dog Friendly",
+                "Low Shedding",
+                "Easy Grooming",
+                "High Energy",
+                "Good Health",
+                "Low Barking",
+                "Intelligence",
+                "Easy Training",
+                "Tolerates Hot",
+                "Tolerates Cold"
+            ]
 
-            // var lCollection = 
+            var collection = $("<ul>").addClass("collection left-align");
 
             for(var i=0;i<data.humanTraits.length;i++){
+                
+                var listItem = $("<li>").text(traitsList[i]).addClass("collection-item");
+                listItem.append($("<i>").text("filter_"+data.humanTraits[i]).addClass("right material-icons").append($("<i>").text("filter_"+data.bestDogTraits[i]).addClass("right material-icons")));
+                
+                if(data.bestDogTraits[i]==data.humanTraits[i]){
+                    listItem.addClass("light-blue accent-1");
+                }
 
+                collection.append(listItem);
             }
 
-            comparison.append(lCol,mCol,rCol);
-            middleColumn.append(comparison);
+            middleColumn.append(collection)
 
             rightColumn.append($("<p>").text("Second Pick: "+data.secondDogPercent+"% Match"))
             rightColumn.append($("<p>").text(data.secondDogName));
