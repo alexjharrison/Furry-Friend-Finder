@@ -99,7 +99,7 @@ module.exports = (app) => {
         var getTraits = (index)=>{
             return Object.values(doggos[index]).splice(2);
         }
-        wtf.fetch(doggos[topIndices[0]].name).then(doc=>{
+        wtf.fetch(doggos[topIndices[0]].name,{"Api-User-Agent":"alexjharrison@gmail.com"}).then(doc=>{
             // console.log(doc.images(0).thumb(),doc.sections("").plaintext());
             var imageUrl = doc.images(0).thumb().replace("/thumb","");
             imageUrl = imageUrl.substring(0,imageUrl.lastIndexOf("/"));
